@@ -28,7 +28,7 @@ public class TeamService {
         TEAM_DATA.put(id, team); // Ajouter l'équipe à la carte avec son identifiant
         return team; // Retourner l'équipe ajoutée
     }
-
+    
     // Méthode pour supprimer une équipe
     public boolean deleteTeam(int id) {
         if (TEAM_DATA.get(id) == null) { // Vérifier si l'équipe existe

@@ -1,5 +1,5 @@
 package SportsPredictions.management.client;
-// 
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import org.apache.cxf.jaxrs.client.*;
@@ -7,7 +7,7 @@ import SportsPredictions.management.web.data.League;
 import SportsPredictions.management.web.data.Team;
 
 public class Test {
-    private static String leagueWebServiceUrl = "http://localhost:8080/SportsPredictions.management.web/api/leagues";
+    private static String leagueWebServiceUrl = "http://localhost:8082/SportsPredictions.management.web/api/leagues";
 
     public static void main(String[] args) {
         // Création de deux ligues
@@ -16,7 +16,7 @@ public class Test {
 
         League nba = new League("NBA", "Basketball", "USA", "Division 1");
         Integer nbaId = addLeague(nba);
-        
+      
         if (premierLeagueId != null && nbaId != null) {
             // Ajout d'une équipe à la ligue Premier League
             Integer teamAId1 = addTeamToLeague(premierLeagueId, "Manchester city", "elite");
@@ -40,7 +40,10 @@ public class Test {
         Response r = c.type(MediaType.APPLICATION_XML).post(league);
         if (r.getStatus() == 201) {
             String uri = r.getHeaderString("Content-Location");
+            System.out.println(uri);
+
             System.out.println("OK.");
+            System.out.println(uri);
             return Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
         } else {
             System.out.println("Oops!");
@@ -58,6 +61,7 @@ public class Test {
         if (r.getStatus() == 201) {
             String uri = r.getHeaderString("Content-Location");
             System.out.println("OK.");
+            System.out.println(uri);
             return Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
         } else {
             System.out.println("Oops!");

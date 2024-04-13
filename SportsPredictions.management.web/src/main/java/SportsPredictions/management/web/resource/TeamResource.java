@@ -14,7 +14,7 @@ public class TeamResource {
     // Injection de l'URI de la requête
     @Context
     private UriInfo uriInfo;
-
+    
     // Méthode POST pour ajouter une nouvelle équipe
     @POST
     @Consumes(MediaType.APPLICATION_XML)

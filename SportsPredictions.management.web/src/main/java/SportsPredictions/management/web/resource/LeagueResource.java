@@ -2,16 +2,21 @@ package SportsPredictions.management.web.resource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+
 import SportsPredictions.management.web.data.League;
 import SportsPredictions.management.web.service.LeagueService;
 import SportsPredictions.management.web.data.Team;
 import SportsPredictions.management.web.service.TeamService;
+import SportsPredictions.management.web.service.TeamsWrapper;
+
 import java.net.URI;
 import java.util.List;
 
 @Path("/leagues")
 public class LeagueResource {
     private LeagueService service = new LeagueService();
+    private TeamService teamService = new TeamService();
+    
 
     @Context
     private UriInfo uriInfo;
@@ -19,7 +24,7 @@ public class LeagueResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response addLeague(League league) {
+    public Response addLeague(League league) { 
         League addedLeague = service.addLeague(league);
         if (addedLeague == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -71,9 +76,20 @@ public class LeagueResource {
         if (league == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        if (team.getId()== null) { // alors la team n'a pas encore été crée 
+        	
+        	team = teamService.addTeam(team);
+        }
+        
         league.addTeam(team);
         // Renvoyer l'entité (la ligue) dans la réponse
-        return Response.status(Response.Status.CREATED).entity(league).build();
+        URI uri = uriInfo.getRequestUri();
+        String newUri = uri.getPath() + "/" + team.getId();
+        System.out.println(Response.status(Response.Status.CREATED).entity(league).build());
+        return Response.status(Response.Status.CREATED)
+        		.entity(league)
+        		.contentLocation(uri.resolve(newUri))
+        		.build();
     }
 
 
@@ -106,7 +122,14 @@ public class LeagueResource {
         if (teams == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.status(Response.Status.OK).entity(teams).build();
+        
+        // Créer un wrapper pour la liste d'équipes pour JAXB
+        TeamsWrapper teamsWrapper = new TeamsWrapper(teams);
+        
+        // Renvoyer la liste d'équipes sous forme de XML
+        return Response.status(Response.Status.OK)
+                       .entity(teamsWrapper)
+                       .build();
     }
 }
 

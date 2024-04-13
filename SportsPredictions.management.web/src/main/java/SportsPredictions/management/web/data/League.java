@@ -7,15 +7,15 @@ import java.util.List;
 
 @XmlRootElement
 public class League {
-    // Attributs privï¿½s de la classe League
+    // Attributs privés de la classe League
     private String name;        // Le nom de la ligue
     private String sport;       // Le sport de la ligue (par exemple, football, basketball, etc.)
-    private String country;     // Le pays oï¿½ la ligue est basï¿½e
-    private String division;    // La division de la ligue (par exemple, premiï¿½re division, deuxiï¿½me division, etc.)
+    private String country;     // Le pays où la ligue est basée
+    private String division;    // La division de la ligue (par exemple, première division, deuxième division, etc.)
     private Integer id;         // L'identifiant de la ligue
-    private List<Team> teams;   // Une liste des ï¿½quipes appartenant ï¿½ cette ligue
+    private List<Team> teams;   // Une liste des équipes appartenant à cette ligue
 
-    // Constructeur par dï¿½faut
+    // Constructeur par défaut
     public League() {
         this.teams = new ArrayList<>();
     }
@@ -28,7 +28,7 @@ public class League {
         this.id = id;
         this.teams = new ArrayList<>();
     }
- // Constructeur sans l'identifiant (sera souvent utilisï¿½ lors de la crï¿½ation d'une nouvelle ligue)
+ // Constructeur sans l'identifiant (sera souvent utilisé lors de la création d'une nouvelle ligue)
     public League(String name, String sport, String country, String division) {
         this.name = name;
         this.sport = sport;
@@ -37,7 +37,7 @@ public class League {
         this.id = null;
         this.teams = new ArrayList<>();
     }
-    // Mï¿½thodes d'accï¿½s (getters) et de modification (setters) pour les attributs de la ligue
+    // Méthodes d'accès (getters) et de modification (setters) pour les attributs de la ligue
     public String getName() {
         return name;
     }
@@ -86,15 +86,15 @@ public class League {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
- // Mï¿½thode pour ajouter une ï¿½quipe ï¿½ la ligue
+ // Méthode pour ajouter une équipe à la ligue
     public void addTeam(Team team) {
         this.teams.add(team);
     }
- // Mï¿½thode pour supprimer une ï¿½quipe de la ligue
+ // Méthode pour supprimer une équipe de la ligue
     public void removeTeam(Team team) {
         this.teams.remove(team);
     }
- // Mï¿½thode pour obtenir une reprï¿½sentation textuelle de la ligue
+ // Méthode pour obtenir une représentation textuelle de la ligue
     @Override
     public String toString() {
         StringBuilder teamsStr = new StringBuilder();
