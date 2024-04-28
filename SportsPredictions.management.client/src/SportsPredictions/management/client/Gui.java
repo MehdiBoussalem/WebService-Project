@@ -165,7 +165,7 @@ public class Gui {
         apiLabel.setBounds(1175, 50, 100, 30);
         
         // Création d'un bouton "getTOPSc"
-        JButton getTOPSc = new JButton("GET TOP SCORERS");
+        JButton getTOPSc = new JButton("Get Top Scorers");
         getTOPSc.setBounds(1100, 100, 200, 30); // Définir les coordonnées x, y, largeur et hauteur 
         
         // Création d'un bouton "API"
@@ -209,6 +209,66 @@ public class Gui {
                 }
             }
         });
+        
+
+        // Création d'une étiquette "SOAP" 
+        JLabel soapLabel = new JLabel("SOAP");
+        soapLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Définir la police avec une taille de 24
+        soapLabel.setBounds(600, 50, 100, 30);
+        
+
+        // Création des boutons
+        JButton createLeagueButtonSOAP = new JButton("Create League");
+        createLeagueButtonSOAP.setBounds(575, 100, 150, 30); // Définir les coordonnées x, y, largeur et hauteur
+
+        JButton createTeamButtonSOAP = new JButton("create Team");
+        createTeamButtonSOAP.setBounds(575, 150, 150, 30); // Définir les coordonnées x, y, largeur et hauteur
+
+        JButton getTeamsButtonSOAP = new JButton("Get Teams");
+        getTeamsButtonSOAP.setBounds(575, 200, 150, 30); // Définir les coordonnées x, y, largeur et hauteur
+
+        
+        
+     // Création d'un ActionListener pour le bouton "createLeagueButton"
+        createLeagueButtonSOAP.addActionListener(e -> {
+            // Demander le nom de la ligue
+            String leagueName = JOptionPane.showInputDialog(frame, "Enter the league name:");
+            if (leagueName != null && !leagueName.isEmpty()) {
+                // Demander le sport
+                String sport = JOptionPane.showInputDialog(frame, "Enter the sport:");
+                if (sport != null && !sport.isEmpty()) {
+                    // Demander le pays
+                    String country = JOptionPane.showInputDialog(frame, "Enter the country:");
+                    if (country != null && !country.isEmpty()) {
+                        // Demander le niveau
+                        String level = JOptionPane.showInputDialog(frame, "Enter the level:");
+                        if (level != null && !level.isEmpty()) {
+                            // Créer l'objet League
+                            League league = new League(leagueName,sport,country,level);
+                          ;
+
+                            // Appel de la méthode addLeagueSOAP du service WebService
+                            WebService ws = new WebService();
+                            String uri = ws.addLeagueSOAP(league);
+
+                            if (uri != null) {
+                                // Si la méthode retourne un URI, ouvrir le lien dans le navigateur
+                                try {
+                                    Desktop.getDesktop().browse(new URI(uri));
+                                } catch (IOException | URISyntaxException ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(frame, "Error: Unable to open the link in the browser.", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } else {
+                                // Si la méthode retourne null, afficher un message d'erreur dans une boîte de dialogue
+                                JOptionPane.showMessageDialog(frame, "Error: Failed to add league.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
 
         // Ajout des composants à la fenêtre
         frame.add(restLabel);
@@ -219,7 +279,11 @@ public class Gui {
         frame.add(apiLabel);
         frame.add(getTOPSc);
         frame.add(predict);
-
+        
+        frame.add(soapLabel);
+        frame.add(createLeagueButtonSOAP);
+        frame.add(createTeamButtonSOAP);
+        frame.add(getTeamsButtonSOAP);        
         // Définition du layout manager comme null pour positionner les composants manuellement
         frame.setLayout(null);
 
